@@ -12,7 +12,7 @@ class Courses extends Component {
             .then(courses => this.setState({courses}));
     }
 
-    generateCourses(){
+    populateCourses(){
         return(
             this.state.courses.map((course,i) => {
                 return(
@@ -36,7 +36,7 @@ class Courses extends Component {
                 <hr />
                 <div className="bounds">
 
-                    {this.generateCourses()}
+                    {this.populateCourses()}
                     
                     <div className="grid-33">
                         <a className="course--module course--add--module" href="/courses/create">
