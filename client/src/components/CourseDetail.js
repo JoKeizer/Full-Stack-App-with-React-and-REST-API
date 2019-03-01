@@ -9,8 +9,13 @@ class CourseDetail extends Component {
     componentDidMount(){
         console.log(this.props.id);
         fetch(`http://localhost:5000/api/courses/${this.props.id}`)
-            .then(res => res.json())
-            .then(course => this.setState({course}));
+            .then(res => {
+                res.json()
+                    .then(course =>{
+                        if(res.status === 200)
+                        this.setState({course})
+                    })
+            })
     }
 
     populateMaterials(){
@@ -24,50 +29,40 @@ class CourseDetail extends Component {
     render(){
         return (
             <div>
-                <div className="header">
+                <div className="actions--bar">
                     <div className="bounds">
-                    <h1 className="header--logo">Courses</h1>
-                    <nav><span>Welcome {/*this.props.user.firstName} {this.props.user.lastName*/}!</span><a className="signout" href="index.html">Sign Out</a></nav>
+                        <div className="grid-100"><span><a className="button" href="update-course.html">Update Course</a><a className="button" href="#">Delete Course</a></span><a
+                            className="button button-secondary" href="/courses">Return to List</a></div>
                     </div>
                 </div>
-                <hr />
-                <div>
-                    <div className="actions--bar">
-                        <div className="bounds">
-                            <div className="grid-100"><span><a className="button" href="update-course.html">Update Course</a><a className="button" href="#">Delete Course</a></span><a
-                                className="button button-secondary" href="/courses">Return to List</a></div>
+
+                <div className="bounds course--detail">
+                    <div className="grid-66">
+                        <div className="course--header">
+                            <h4 className="course--label">Course</h4>
+                            <h3 className="course--title">{this.state.course.title}</h3>
+                            <p>By Joe Smith</p>
+                        </div>
+                        <div className="course--description">
+                            <p>{this.state.course.description}</p>
                         </div>
                     </div>
-
-                    <div className="bounds course--detail">
-                        <div className="grid-66">
-                            <div className="course--header">
-                                <h4 className="course--label">Course</h4>
-                                <h3 className="course--title">{this.state.course.title}</h3>
-                                <p>By Joe Smith</p>
-                            </div>
-                            <div className="course--description">
-                                <p>{this.state.course.description}</p>
-                            </div>
-                        </div>
-                        <div className="grid-25 grid-right">
-                            <div className="course--stats">
-                                <ul className="course--stats--list">
-                                    <li className="course--stats--list--item">
-                                        <h4>Estimated Time</h4>
-                                        <h3>{this.state.course.estimatedTime}</h3>
-                                    </li>
-                                    <li className="course--stats--list--item">
-                                        <h4>Materials Needed</h4>
-                                        <ul>
-                                            {this.populateMaterials()}
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div className="grid-25 grid-right">
+                        <div className="course--stats">
+                            <ul className="course--stats--list">
+                                <li className="course--stats--list--item">
+                                    <h4>Estimated Time</h4>
+                                    <h3>{this.state.course.estimatedTime}</h3>
+                                </li>
+                                <li className="course--stats--list--item">
+                                    <h4>Materials Needed</h4>
+                                    <ul>
+                                        {this.populateMaterials()}
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-
                 </div>
 
             </div>
