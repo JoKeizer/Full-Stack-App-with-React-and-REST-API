@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {NavLink} from 'react-router-dom';
 
 class CourseDetail extends Component {
 
@@ -22,7 +23,7 @@ class CourseDetail extends Component {
         if(this.state.course.materialsNeeded!==null){
             let materials = this.state.course.materialsNeeded.split('* ');
             materials.shift();
-            return(materials.map(material => <li>{material}</li>))
+            return(materials.map((material,key) => <li key={key}>{material}</li>))
         }
     }
 
@@ -31,8 +32,8 @@ class CourseDetail extends Component {
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
-                        <div className="grid-100"><span><a className="button" href="update-course.html">Update Course</a><a className="button" href="#">Delete Course</a></span><a
-                            className="button button-secondary" href="/courses">Return to List</a></div>
+                        <div className="grid-100"><span><NavLink className="button" to={`/courses/${this.props.id}/update`}>Update Course</NavLink><NavLink className="button" to="#">Delete Course</NavLink></span><NavLink
+                            className="button button-secondary" to="/">Return to List</NavLink></div>
                     </div>
                 </div>
 
