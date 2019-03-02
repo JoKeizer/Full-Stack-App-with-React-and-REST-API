@@ -5,17 +5,24 @@ import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import Header from './components/Header';
 import CreateCourse from './components/CreateCourse';
+import UpdateCourse from './components/UpdateCourse';
+import UserSignOut from './components/UserSignOut'; 
 import {
   BrowserRouter,
   Route,
   Switch
 } from 'react-router-dom';
-import UpdateCourse from './components/UpdateCourse';
 
 class App extends Component {
 
   state = {
     user: null
+  }
+
+  signOut(){
+    this.setState({
+      user: null
+    });
   }
 
   signUp(firstName, lastName, email, password){
@@ -53,8 +60,9 @@ class App extends Component {
         <div className="App">
           <Header user={this.state.user}/>
           <Route exact path="/" component={Courses} />
-          <Route path="/signin" render={() => <UserSignIn signIn={this.signIn.bind(this)} />} />
-          <Route path="/signup" render={() => <UserSignUp signIn={this.signIn.bind(this)} />} />
+          <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
+          <Route path="/signup" render={() => <UserSignUp signUp={this.signUp.bind(this)} />} />
+          <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
           <Route path="/courses/:id/update" render={() => <UpdateCourse />} />
           <Switch>
             <Route path="/courses/create" render={() => <CreateCourse />} />

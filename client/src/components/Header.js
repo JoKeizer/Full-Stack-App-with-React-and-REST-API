@@ -4,9 +4,8 @@ import {NavLink} from 'react-router-dom';
 const Header = ({user}) => {
     const checkUser = () => {
         if(user){
-            console.log(user);
             return(
-                <nav><span>Welcome {user.firstName} {user.lastName}!</span><NavLink className="signout" to="/">Sign Out</NavLink></nav>
+                <nav><span>Welcome {user.firstName} {user.lastName}!</span><NavLink className="signout" to="/signout">Sign Out</NavLink></nav>
             );
         }else{
             return(

@@ -8,7 +8,6 @@ class CourseDetail extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.id);
         fetch(`http://localhost:5000/api/courses/${this.props.id}`)
             .then(res => {
                 res.json()
@@ -20,7 +19,7 @@ class CourseDetail extends Component {
     }
 
     populateMaterials(){
-        if(this.state.course.materialsNeeded!==null){
+        if(this.state.course.materialsNeeded!==null && this.state.course.materialsNeeded!==undefined){
             let materials = this.state.course.materialsNeeded.split('* ');
             materials.shift();
             return(materials.map((material,key) => <li key={key}>{material}</li>))

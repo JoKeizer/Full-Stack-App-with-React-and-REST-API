@@ -21,7 +21,7 @@ class CreateCourse extends Component {
                             <h4 className="course--label">Course</h4>
                             <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
                                 defaultValue="" /></div>
-                            <p>By Joe Smith</p>
+                            <p>By {this.props.user.firstName} {this.props.user.lastName}</p>
                         </div>
                         <div className="course--description">
                             <div><textarea id="description" name="description" className="" placeholder="Course description..."></textarea></div>
@@ -42,7 +42,7 @@ class CreateCourse extends Component {
                             </ul>
                         </div>
                         </div>
-                        <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button></div>
+                        <div className="grid-100 pad-bottom"><button className="button" type="submit">Create Course</button><button className="button button-secondary">Cancel</button></div>
                     </form>
                 </div>
             </div>
