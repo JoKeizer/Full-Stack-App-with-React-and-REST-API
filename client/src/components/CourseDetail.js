@@ -8,7 +8,8 @@ class CourseDetail extends Component {
             title: null,
             description: null,
             estimatedTime: null,
-            materialsNeeded: null
+            materialsNeeded: null,
+            user:null
         }
     }
 
@@ -31,13 +32,25 @@ class CourseDetail extends Component {
         }
     }
 
+    showAuthorButtons(){
+        if(this.state.course.user !== null && this.state.course.user === this.props.user){
+            return(
+                <span>
+                    <NavLink className="button" to={`/courses/${this.props.id}/update`}>Update Course</NavLink>
+                    <NavLink className="button" to="#">Delete Course</NavLink>
+                </span>
+            );
+        }
+    }
+
     render(){
         return (
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
-                        <div className="grid-100"><span><NavLink className="button" to={`/courses/${this.props.id}/update`}>Update Course</NavLink><NavLink className="button" to="#">Delete Course</NavLink></span><NavLink
-                            className="button button-secondary" to="/">Return to List</NavLink></div>
+                        <div className="grid-100">
+                            {this.showAuthorButtons()}
+                            <NavLink className="button button-secondary" to="/">Return to List</NavLink></div>
                     </div>
                 </div>
 

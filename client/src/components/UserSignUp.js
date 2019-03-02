@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 
+
+//TODO add validation error messages
 class UserSignUp extends Component {
     submitForm(e){
         e.preventDefault();
-        //TODO verify input, make sure passwords match
-        this.props.signUp(e.target[0].value, e.target[1].value); //add the rest in aswell if verified
+        if(e.target[3].value === e.target[4].value){
+            this.props.signUp(e.target[0].value, e.target[1].value, e.target[2].value, e.target[3].value); //add the rest in aswell if verified
+            this.props.history.push('/');
+        }else{
+            console.log("passwords don't match");
+        }
     }
     render(){
         return(

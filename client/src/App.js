@@ -27,7 +27,25 @@ class App extends Component {
   }
 
   signUp(firstName, lastName, email, password){
+    let data = JSON.stringify({
+      firstName: firstName,
+      lastName: lastName,
+      emailAddress: email,
+      password: password
+    });
 
+    fetch('http://localhost:5000/api/users', {
+      method: "POST",
+      body: data,
+      headers:{
+          'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        if(res.status === 201){
+          this.signIn(email,password);
+        }
+      });
   }
 
   signIn(email, password){
@@ -62,12 +80,12 @@ class App extends Component {
           <Header user={this.state.user}/>
           <Route exact path="/" component={Courses} />
           <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
-          <Route path="/signup" render={() => <UserSignUp signUp={this.signUp.bind(this)} />} />
+          <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
           <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
           <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} id={match.params.id}/>} />
           <Switch>
             <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
-            <Route exact path="/courses/:id" render={({match}) => <CourseDetail id={match.params.id}/>} />
+            <Route exact path="/courses/:id" render={({match}) => <CourseDetail user={this.state.user} id={match.params.id}/>} />
           </Switch>
         </div>
       </BrowserRouter>
