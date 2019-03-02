@@ -4,7 +4,12 @@ import {NavLink} from 'react-router-dom';
 class CourseDetail extends Component {
 
     state = {
-        course: {title:null,description:null,estimatedTime:null,materialsNeeded:null}
+        course: {
+            title: null,
+            description: null,
+            estimatedTime: null,
+            materialsNeeded: null
+        }
     }
 
     componentDidMount(){

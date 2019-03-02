@@ -7,6 +7,7 @@ import Header from './components/Header';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
 import UserSignOut from './components/UserSignOut'; 
+import PrivateRoute from './components/PrivateRoute';
 import {
   BrowserRouter,
   Route,
@@ -63,9 +64,9 @@ class App extends Component {
           <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
           <Route path="/signup" render={() => <UserSignUp signUp={this.signUp.bind(this)} />} />
           <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
-          <Route path="/courses/:id/update" render={() => <UpdateCourse />} />
+          <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} id={match.params.id}/>} />
           <Switch>
-            <Route path="/courses/create" render={() => <CreateCourse />} />
+            <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
             <Route exact path="/courses/:id" render={({match}) => <CourseDetail id={match.params.id}/>} />
           </Switch>
         </div>
