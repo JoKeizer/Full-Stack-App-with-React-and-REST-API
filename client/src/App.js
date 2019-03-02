@@ -62,6 +62,7 @@ class App extends Component {
             this.setState({
               user :
               {
+                id: res.id,
                 firstName: res.firstName,
                 lastName: res.lastName,
                 headers: headers
@@ -73,6 +74,8 @@ class App extends Component {
       }
     });
   }
+
+
   render() {
     return (
       <BrowserRouter>
@@ -85,7 +88,7 @@ class App extends Component {
           <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} id={match.params.id}/>} />
           <Switch>
             <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
-            <Route exact path="/courses/:id" render={({match}) => <CourseDetail user={this.state.user} id={match.params.id}/>} />
+            <Route exact path="/courses/:id" render={({match, history}) => <CourseDetail history={history} user={this.state.user} id={match.params.id}/>} />
           </Switch>
         </div>
       </BrowserRouter>

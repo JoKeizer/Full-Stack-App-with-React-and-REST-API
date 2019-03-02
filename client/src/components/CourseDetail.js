@@ -9,7 +9,10 @@ class CourseDetail extends Component {
             description: null,
             estimatedTime: null,
             materialsNeeded: null,
-            user:null
+            user:{
+                firstName: null,
+                lastName: null
+            }
         }
     }
 
@@ -33,14 +36,27 @@ class CourseDetail extends Component {
     }
 
     showAuthorButtons(){
-        if(this.state.course.user !== null && this.state.course.user === this.props.user){
-            return(
-                <span>
-                    <NavLink className="button" to={`/courses/${this.props.id}/update`}>Update Course</NavLink>
-                    <NavLink className="button" to="#">Delete Course</NavLink>
-                </span>
-            );
+        if (this.state.course.user!==null && this.props.user!==null){
+            if(this.state.course.user._id === this.props.user.id){
+                return(
+                    <span>
+                        <NavLink className="button" to={`/courses/${this.props.id}/update`}>Update Course</NavLink>
+                        <button className="button" to="/" onClick={() => this.deleteCourse()}>Delete Course</button>
+                    </span>
+                );
+            }
         }
+    }
+
+    deleteCourse(){
+        fetch(`http://localhost:5000/api/courses/${this.props.id}`,{
+            method: "DELETE",
+            headers: this.props.user.headers
+        }).then(res => {
+            if(res.status === 204){
+                this.props.history.push('/');
+            }
+        });
     }
 
     render(){
@@ -59,7 +75,7 @@ class CourseDetail extends Component {
                         <div className="course--header">
                             <h4 className="course--label">Course</h4>
                             <h3 className="course--title">{this.state.course.title}</h3>
-                            <p>By Joe Smith</p>
+                            <p>By {this.state.course.user.firstName} {this.state.course.user.lastName}</p>
                         </div>
                         <div className="course--description">
                             <p>{this.state.course.description}</p>
