@@ -1,3 +1,3 @@
 # rest-api
 
-please run npm run seed before testing to ensure the database is reset.
+to view the original git repository of this api click [here](https://github.com/YousefMokaddem/rest-api)
