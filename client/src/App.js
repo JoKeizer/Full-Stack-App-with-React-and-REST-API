@@ -17,12 +17,18 @@ import {
 class App extends Component {
 
   state = {
-    user: null
+    user: {
+      ...JSON.parse(localStorage.getItem('user')),
+      headers: JSON.parse(localStorage.getItem('headers'))
+    }
   }
-
+  
   signOut(){
     this.setState({
       user: null
+    }, () => {
+      localStorage.setItem('user',null);
+      localStorage.setItem('headers',null);
     });
   }
 
@@ -51,6 +57,7 @@ class App extends Component {
   signIn(email, password){
     const headers = new Headers();
     headers.set('Authorization', 'Basic ' + Buffer.from(email + ":" + password).toString('base64'));
+    headers.append('Content-Type', 'application/json')
     fetch('http://localhost:5000/api/users', {
       method: "GET",
       headers: headers
@@ -67,6 +74,12 @@ class App extends Component {
                 lastName: res.lastName,
                 headers: headers
               }
+            }, () => {
+              localStorage.setItem('user', JSON.stringify(this.state.user));
+              let storedHeaders = [];
+              storedHeaders.push(["authorization", headers.get('Authorization')]);
+              storedHeaders.push(["content-type", headers.get('Content-Type')]);
+              localStorage.setItem('headers', JSON.stringify(storedHeaders));
             })
           );
       }else{
@@ -85,7 +98,7 @@ class App extends Component {
           <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
           <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
           <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
-          <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} id={match.params.id}/>} />
+          <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
           <Switch>
             <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
             <Route exact path="/courses/:id" render={({match, history}) => <CourseDetail history={history} user={this.state.user} id={match.params.id}/>} />
