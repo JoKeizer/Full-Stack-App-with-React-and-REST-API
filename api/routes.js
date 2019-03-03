@@ -115,6 +115,7 @@ router.get('/courses/:id', (req,res,next) => {
 // route to create a course
 router.post('/courses', authenticateUser, (req,res,next) => {
     const course = new Course(req.body);
+    course.user = req.currentUser;
 
     course.save((err, course) => {
         if(err) return next(err);
