@@ -19,7 +19,7 @@ const Header = ({user}) => {
         
         <div className="header">
             <div className="bounds">
-                <h1 className="header--logo">Courses</h1>
+                <NavLink to="/"><h1 className="header--logo">Courses</h1></NavLink>
                 {checkUser()}
             </div>
             <hr />
