@@ -34,14 +34,15 @@ class UpdateCourse extends Component {
             .then(res => {
                 res.json()
                     .then(course =>{
-                        if(res.status === 200)
-                        this.setState({course})
+                        if(res.status === 200){
+                            this.setState({course});
+                        }
                     })
             })
     }
     componentDidUpdate(){
-        if(this.state.course.user){
-            if(this.state.course.user.id !== this.props.user.id){
+        if(this.state.course.user._id !==null && this.props.user){
+            if(this.state.course.user._id !== this.props.user.id){
                 this.props.history.push('/forbidden');
             }
         }

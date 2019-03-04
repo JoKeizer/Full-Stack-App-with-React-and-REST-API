@@ -10,7 +10,8 @@ class UserSignIn extends Component {
         e.preventDefault();
         const res = await this.props.signIn(e.target[0].value, e.target[1].value);
         if(res === 200){
-            this.props.history.push('/');
+            this.props.history.push(this.props.prevLocation);
+            this.props.setPrevLocation('/');
         }else{
             this.setState({message:"Invalid email or password"});
         }

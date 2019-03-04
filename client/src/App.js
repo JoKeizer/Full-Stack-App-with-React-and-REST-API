@@ -21,8 +21,10 @@ class App extends Component {
   state = {
     user: undefined
   }
-
+  mounted = false;
+  prevLocation = ('/');
   componentDidMount(){
+    this.mounted = true;
     if(JSON.parse(localStorage.getItem('user'))){
       this.setState({
         user: { 
@@ -33,6 +35,9 @@ class App extends Component {
     }else{
       this.setState({user:null});
     }
+  }
+  componentWillUnmount(){
+    this.mounted = false;
   }
   
   signOut(){
@@ -103,19 +108,24 @@ class App extends Component {
     });
   }
 
+  setPrevLocation(location){
+    this.prevLocation = location;
+    console.log(this.prevLocation);
+  }
 
   render() {
+    if(!this.mounted)return(<div></div>);
     return (
       <BrowserRouter>
         <div className="App">
           <Header user={this.state.user}/>
           <Switch>
             <Route exact path="/" component={Courses} />
-            <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
+            <Route path="/signin" render={({history}) => <UserSignIn history={history} setPrevLocation={this.setPrevLocation.bind(this)} prevLocation={this.prevLocation} signIn={this.signIn.bind(this)} />} />
             <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
             <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
-            <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
-            <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
+            <PrivateRoute path="/courses/:id/update" setPrevLocation={this.setPrevLocation.bind(this)} user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
+            <PrivateRoute path="/courses/create" setPrevLocation={this.setPrevLocation.bind(this)} user={this.state.user} component={CreateCourse}/>} />
             <Route exact path="/courses/:id" render={({match, history}) => <CourseDetail history={history} user={this.state.user} id={match.params.id}/>} />
             <Route path="/forbidden" component={Forbidden}/>
             <Route component={NotFound}/>
