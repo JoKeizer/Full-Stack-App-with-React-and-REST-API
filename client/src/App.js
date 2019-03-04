@@ -110,7 +110,6 @@ class App extends Component {
 
   setPrevLocation(location){
     this.prevLocation = location;
-    console.log(this.prevLocation);
   }
 
   render() {
