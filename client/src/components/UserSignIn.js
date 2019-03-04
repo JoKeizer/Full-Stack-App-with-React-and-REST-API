@@ -2,11 +2,34 @@ import React,{Component} from 'react';
 import {NavLink} from 'react-router-dom';
 
 class UserSignIn extends Component {
-    submitForm(e){
-        e.preventDefault();
-        this.props.signIn(e.target[0].value, e.target[1].value);
-        this.props.history.push('/');
+    state = {
+        message: null
     }
+
+    async submitForm(e){
+        e.preventDefault();
+        const res = await this.props.signIn(e.target[0].value, e.target[1].value);
+        if(res === 200){
+            this.props.history.push('/');
+        }else{
+            this.setState({message:"Invalid email or password"});
+        }
+    }
+
+    printErrors(){
+        if(this.state.messages !== null){
+            return(
+                <div>
+                    <div className="validation-errors">
+                        <ul>
+                            {this.state.message}
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+    }
+
     render(){
         return(
             <div>
@@ -14,6 +37,7 @@ class UserSignIn extends Component {
                     <div className="grid-33 centered signin">
                     <h1>Sign In</h1>
                     <div>
+                        {this.printErrors()}
                         <form onSubmit={(e) => {this.submitForm(e)}}>
                             <div><input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" defaultValue="" /></div>
                             <div><input id="password" name="password" type="password" className="" placeholder="Password" defaultValue="" /></div>

@@ -48,7 +48,7 @@ class App extends Component {
       password: password
     });
 
-    fetch('http://localhost:5000/api/users', {
+    return fetch('http://localhost:5000/api/users', {
       method: "POST",
       body: data,
       headers:{
@@ -58,6 +58,8 @@ class App extends Component {
       .then(res => {
         if(res.status === 201){
           this.signIn(email,password);
+        }else{
+          return res.json()
         }
       });
   }
@@ -66,7 +68,7 @@ class App extends Component {
     const headers = new Headers();
     headers.set('Authorization', 'Basic ' + Buffer.from(email + ":" + password).toString('base64'));
     headers.append('Content-Type', 'application/json')
-    fetch('http://localhost:5000/api/users', {
+    return fetch('http://localhost:5000/api/users', {
       method: "GET",
       headers: headers
     })
@@ -90,8 +92,9 @@ class App extends Component {
               localStorage.setItem('headers', JSON.stringify(storedHeaders));
             })
           );
+          return(200);
       }else{
-        //handle unauthorized error
+        return(422);
       }
     });
   }

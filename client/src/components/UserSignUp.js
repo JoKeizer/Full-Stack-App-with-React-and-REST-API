@@ -4,21 +4,46 @@ import {NavLink} from 'react-router-dom';
 
 //TODO add validation error messages
 class UserSignUp extends Component {
-    submitForm(e){
+    state = {
+        message: null
+    }
+
+    async submitForm(e){
         e.preventDefault();
         if(e.target[3].value === e.target[4].value){
-            this.props.signUp(e.target[0].value, e.target[1].value, e.target[2].value, e.target[3].value); //add the rest in aswell if verified
-            this.props.history.push('/');
+            let error = await this.props.signUp(e.target[0].value, e.target[1].value, e.target[2].value, e.target[3].value)
+            if(!error){//undifined when no errors
+                this.props.history.push('/');
+            }else{
+                this.setState({message: error.message});
+            }
         }else{
-            console.log("passwords don't match");
+            this.setState({message: "Please ensure your passwords match"})
+        }
+        //set messages
+    }
+
+    printErrors(){
+        if(this.state.messages !== null){
+            return(
+                <div>
+                    <div className="validation-errors">
+                        <ul>
+                            {this.state.message}
+                        </ul>
+                    </div>
+                </div>
+            );
         }
     }
+
     render(){
         return(
             <div className="bounds">
                 <div className="grid-33 centered signin">
                 <h1>Sign Up</h1>
                 <div>
+                    {this.printErrors()}
                     <form onSubmit={(e) => {this.submitForm(e)}}>
                     <div><input id="firstName" name="firstName" type="text" className="" placeholder="First Name" defaultValue="" /></div>
                     <div><input id="lastName" name="lastName" type="text" className="" placeholder="Last Name" defaultValue="" /></div>
