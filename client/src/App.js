@@ -8,6 +8,7 @@ import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
 import UserSignOut from './components/UserSignOut'; 
 import PrivateRoute from './components/PrivateRoute';
+import NotFound from './components/NotFound';
 import {
   BrowserRouter,
   Route,
@@ -105,14 +106,15 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Header user={this.state.user}/>
-          <Route exact path="/" component={Courses} />
-          <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
-          <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
-          <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
-          <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
           <Switch>
+            <Route exact path="/" component={Courses} />
+            <Route path="/signin" render={({history}) => <UserSignIn history={history} signIn={this.signIn.bind(this)} />} />
+            <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
+            <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
+            <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
             <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
             <Route exact path="/courses/:id" render={({match, history}) => <CourseDetail history={history} user={this.state.user} id={match.params.id}/>} />
+            <Route component={NotFound}/>
           </Switch>
         </div>
       </BrowserRouter>

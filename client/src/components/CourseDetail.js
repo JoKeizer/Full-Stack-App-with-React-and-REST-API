@@ -22,8 +22,11 @@ class CourseDetail extends Component {
             .then(res => {
                 res.json()
                     .then(course =>{
-                        if(res.status === 200)
-                        this.setState({course})
+                        if(res.status === 200){
+                            this.setState({course})
+                        }else{
+                            this.props.history.push('/notfound')
+                        }
                     })
             })
     }
