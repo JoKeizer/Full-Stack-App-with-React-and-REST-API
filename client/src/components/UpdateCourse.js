@@ -10,7 +10,8 @@ class UpdateCourse extends Component {
             materialsNeeded: '',
             user: {
                 firstName: null,
-                lastName: null
+                lastName: null,
+                id: null
             }
         },
         messages:null
@@ -37,6 +38,13 @@ class UpdateCourse extends Component {
                         this.setState({course})
                     })
             })
+    }
+    componentDidUpdate(){
+        if(this.state.course.user){
+            if(this.state.course.user.id !== this.props.user.id){
+                this.props.history.push('/forbidden');
+            }
+        }
     }
 
     updateCourse(e){

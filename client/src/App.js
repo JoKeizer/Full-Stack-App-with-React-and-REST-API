@@ -9,6 +9,7 @@ import UpdateCourse from './components/UpdateCourse';
 import UserSignOut from './components/UserSignOut'; 
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/NotFound';
+import Forbidden from './components/Forbidden';
 import {
   BrowserRouter,
   Route,
@@ -18,7 +19,7 @@ import {
 class App extends Component {
 
   state = {
-    user: null
+    user: undefined
   }
 
   componentDidMount(){
@@ -29,6 +30,8 @@ class App extends Component {
           headers: JSON.parse(localStorage.getItem('headers'))
         }
       });
+    }else{
+      this.setState({user:null});
     }
   }
   
@@ -112,8 +115,9 @@ class App extends Component {
             <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
             <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
             <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
-            <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
+            <PrivateRoute path="/courses/create" user={this.state.user? this.state.user:undefined} component={CreateCourse}/>} />
             <Route exact path="/courses/:id" render={({match, history}) => <CourseDetail history={history} user={this.state.user} id={match.params.id}/>} />
+            <Route path="/forbidden" component={Forbidden}/>
             <Route component={NotFound}/>
           </Switch>
         </div>
