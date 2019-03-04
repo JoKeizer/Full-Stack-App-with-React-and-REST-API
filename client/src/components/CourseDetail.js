@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 class CourseDetail extends Component {
 
@@ -31,7 +32,7 @@ class CourseDetail extends Component {
         if(this.state.course.materialsNeeded!==null && this.state.course.materialsNeeded!==undefined){
             let materials = this.state.course.materialsNeeded.split('* ');
             materials.shift();
-            return(materials.map((material,key) => <li key={key}>{material}</li>))
+            return(materials.map((material,key) => <li><ReactMarkdown key={key} source={material} /></li>))
         }
     }
 
@@ -78,7 +79,7 @@ class CourseDetail extends Component {
                             <p>By {this.state.course.user.firstName} {this.state.course.user.lastName}</p>
                         </div>
                         <div className="course--description">
-                            <p>{this.state.course.description}</p>
+                            <p>{<ReactMarkdown source={this.state.course.description}/>}</p>
                         </div>
                     </div>
                     <div className="grid-25 grid-right">
