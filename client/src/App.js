@@ -17,9 +17,17 @@ import {
 class App extends Component {
 
   state = {
-    user: {
-      ...JSON.parse(localStorage.getItem('user')),
-      headers: JSON.parse(localStorage.getItem('headers'))
+    user: null
+  }
+
+  componentDidMount(){
+    if(JSON.parse(localStorage.getItem('user'))){
+      this.setState({
+        user: { 
+          ...JSON.parse(localStorage.getItem('user')),
+          headers: JSON.parse(localStorage.getItem('headers'))
+        }
+      });
     }
   }
   
