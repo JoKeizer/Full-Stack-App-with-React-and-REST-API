@@ -115,7 +115,7 @@ class App extends Component {
             <Route path="/signup" render={({history}) => <UserSignUp history={history} signUp={this.signUp.bind(this)} />} />
             <Route path="/signout" render={() => <UserSignOut signOut={this.signOut.bind(this)} />} />
             <PrivateRoute path="/courses/:id/update" user={this.state.user} component={({match, history}) => <UpdateCourse history={history} user={this.state.user} id={match.params.id}/>} />
-            <PrivateRoute path="/courses/create" user={this.state.user? this.state.user:undefined} component={CreateCourse}/>} />
+            <PrivateRoute path="/courses/create" user={this.state.user} component={CreateCourse}/>} />
             <Route exact path="/courses/:id" render={({match, history}) => <CourseDetail history={history} user={this.state.user} id={match.params.id}/>} />
             <Route path="/forbidden" component={Forbidden}/>
             <Route component={NotFound}/>
